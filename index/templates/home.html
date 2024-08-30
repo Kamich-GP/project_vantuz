@@ -13,7 +13,7 @@
     </a>
     {% for category in categories %}
     <div class="list-group list-group-flush border-bottom scrollarea">
-      <a href="#" class="list-group-item list-group-item-action active py-3 lh-sm" aria-current="true">
+      <a href="/category/{{ category.id }}" class="list-group-item list-group-item-action active py-3 lh-sm" aria-current="true">
         <div class="d-flex w-100 align-items-center justify-content-between">
           <strong class="mb-1">{{ category.name }}</strong>
         </div>
@@ -28,9 +28,9 @@
       <div class="feature col">
         <h3 class="fs-2 text-white">{{ product.pr_name }}</h3>
         <p>{{ product.pr_des }}</p>
-        <a href="#" class="icon-link">
+        <a href="/product/{{ product.id }}" class="icon-link">
           Подробнее
-          <svg class="bi"><use xlink:href="#chevron-right"></use></svg>
+          <svg class="bi"><use xlink:href="/product/{{ product.id }}"></use></svg>
         </a>
       </div>
     </div>
