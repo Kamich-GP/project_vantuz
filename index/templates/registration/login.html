@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<head>
+    <meta charset="UTF-8">
+    <title>Войти в аккаунт</title>
+</head>
+<body class="bg bg-dark">
+<form method="post">
+    <h1 class="h3 mb-3 fw-normal">Вход в аккаунт</h1>
+    <div class="form-floating">
+        <h3 class="text text-white">Логин</h3>
+        {% csrf_token %}
+      <p>{{ form.username }}</p>
+    </div>
+    <div class="form-floating">
+        <h3 class="text text-white">Пароль</h3>
+        {% csrf_token %}
+        <p>{{ form.password }}</p>
+    </div>
+    <button class="btn btn-primary w-1 py-2" type="submit">Войти</button>
+  </form>
+</body>
+</html>
