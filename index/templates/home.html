@@ -24,6 +24,24 @@
         </a>
       </li>
         {% endfor %}
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+            <a href="/logout" class="nav-link active" aria-current="page">
+                Выйти
+            </a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+            <a href="/register" class="nav-link active" aria-current="page">
+                Регистрация
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="/accounts/login" class="nav-link active" aria-current="page">
+                Войти
+            </a>
+        </li>
+        {% endif %}
     </ul>
 </div>
 <div class="container px-4 py-5" id="featured-3">

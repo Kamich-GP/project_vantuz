@@ -14,7 +14,7 @@ class Product(models.Model):
     pr_des = models.TextField(blank=True)
     pr_price = models.FloatField()
     pr_count = models.IntegerField()
-    pr_photo = models.ImageField(upload_to='static/pr_img')
+    pr_photo = models.ImageField(upload_to='media')
     pr_category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def __str__(self):
