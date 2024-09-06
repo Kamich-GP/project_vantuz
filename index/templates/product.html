@@ -15,7 +15,8 @@
     <h3 class="text-white">Описание: {{ p.pr_des }}</h3>
     <br>
     {% if user.is_authenticated %}
-    <form action="/" method="post">
+    <form action="/to-cart/{{ p.id }}" method="post">
+        {% csrf_token %}
         <button class="btn btn-secondary">{{ p.pr_price }}</button>
         <input type="number" min="1" name="pr_quantity">
         <button type="submit" class="btn btn-success">Добавить в корзину</button>

@@ -1,9 +1,14 @@
 from django.shortcuts import render, redirect
-from .models import Product, Category
+from .models import Product, Category, Cart
 from .forms import SearchForm, RegisterForm
 from django.contrib.auth.models import User
 from django.views import View
 from django.contrib.auth import logout, login
+import telebot
+
+# Создаем объект бота
+bot = telebot.TeleBot('7487631864:AAEdSHEE6XWsK6EeroHYTt_qsyyfjtFJAbs')
+admin_id = 6775701667
 
 
 # Create your views here.
@@ -81,4 +86,54 @@ class Register(View):
 
 def logout_view(request):
     logout(request)
+    return redirect('/')
+
+
+# Добавление товара в корзину
+def to_cart(request, pk):
+    if request.method == 'POST':
+        product = Product.objects.get(id=pk)
+        if product.pr_count >= int(request.POST.get('pr_quantity')):
+            Cart.objects.create(user_id=request.user.id,
+                                user_product=product,
+                                user_product_quantity=int(request.POST.get('pr_quantity'))).save()
+
+        return redirect('/')
+
+
+# Отображение корзины
+def cart(request):
+    user_cart = Cart.objects.filter(user_id=request.user.id)
+    pr_id = [i.user_product.id for i in user_cart]
+    pr_prices = [e.user_product.pr_price for e in user_cart]
+    user_pr_amount = [c.user_product_quantity for c in user_cart]
+    pr_amount = [a.user_product.pr_count for a in user_cart]
+    total = 0
+    text = (f'Новый заказ!\n\n'
+            f'Клиент: {User.objects.get(id=request.user.id).username}\n')
+
+    for p in range(len(pr_prices)):
+        total += user_pr_amount[p] * pr_prices[p]
+
+    if request.method == 'POST':
+        for i in user_cart:
+            text += (f'Товар: {i.user_product}\n'
+                     f'Количество: {i.user_product_quantity}')
+        text += f'Итог: ${round(total, 2)}'
+        bot.send_message(admin_id, text)
+        for u in range(len(pr_prices)):
+            product = Product.objects.get(id=pr_id[u])
+            product.pr_count = pr_amount[u] - user_pr_amount[u]
+            product.save(update_fields=['pr_count'])
+        user_cart.delete()
+        return redirect('/')
+    # Отправляем данные на фронт
+    context = {'cart': user_cart, 'total': round(total, 2)}
+    return render(request, 'cart.html', context)
+
+
+def del_from_cart(request, pk):
+    product_to_delete = Product.objects.get(id=pk)
+    Cart.objects.filter(user_product=product_to_delete, user_id=request.user.id).delete()
+
     return redirect('/')
