@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Результат по поиску</title>
+</head>
+<body>
+{% if "search_bar" in request.GET %}
+<h1>Найдено <strong>{{ r_amount }}</strong> результатов</h1>
+{% for p in results %}
+{% with post=result.object %}
+<h1>{{ post.title }}</h1>
+<br>
+<a href="{{ post.get_absolute_url }} ">{{ post.title }}</a>
+{% endwith %}
+{% endfor %}
+{% endif %}
+</body>
+</html>

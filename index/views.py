@@ -6,6 +6,7 @@ from django.views import View
 from django.contrib.auth import logout, login
 import telebot
 
+
 # Создаем объект бота
 bot = telebot.TeleBot('7487631864:AAEdSHEE6XWsK6EeroHYTt_qsyyfjtFJAbs')
 admin_id = 6775701667
@@ -48,14 +49,8 @@ def product_page(request, pk):
 
 
 def search_product(request):
-    if request.method == 'POST':
-        get_product = request.POST.get('search_product')
+    pass
 
-        if get_product:
-            product = Product.objects.get(pr_name__icontains=get_product)
-            return redirect(f'/product/{product.id}')
-        else:
-            return redirect('/')
 
 
 # Регистрация
@@ -110,7 +105,7 @@ def cart(request):
     pr_amount = [a.user_product.pr_count for a in user_cart]
     total = 0
     text = (f'Новый заказ!\n\n'
-            f'Клиент: {User.objects.get(id=request.user.id).username}\n')
+            f'Клиент: {User.objects.get(id=request.user.id).email}\n')
 
     for p in range(len(pr_prices)):
         total += user_pr_amount[p] * pr_prices[p]

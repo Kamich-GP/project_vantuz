@@ -11,9 +11,9 @@
       <span class="fs-4">Категории</span>
     </a>
     <hr>
-    <form action="/search" method="post">
+    <form action="/search" method="get">
         {% csrf_token %}
-        <input type="text" placeholder="Найти товар" name="search_product">
+        {{ form.as_p }}
         <button type="submit" class="btn btn-success">Поиск</button>
     </form>
     <ul class="nav nav-pills flex-column mb-auto">
