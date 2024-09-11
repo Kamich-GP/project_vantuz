@@ -3,6 +3,7 @@ from .models import Product, Category, Cart
 from .forms import SearchForm, RegisterForm
 from django.contrib.auth.models import User
 from django.views import View
+from django.views.generic import ListView
 from django.contrib.auth import logout, login
 import telebot
 
@@ -48,9 +49,19 @@ def product_page(request, pk):
     return render(request, 'product.html', context)
 
 
-def search_product(request):
-    pass
+# Поиск
+class Search(ListView):
 
+    template_name = 'result.html'
+    context_object_name = 'product'
+
+    def get_queryset(self):
+        return Product.objects.filter(pr_name__iregex=self.request.GET.get('search_product'))
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search_product'] = self.request.GET.get('search_product')
+        return context
 
 
 # Регистрация
