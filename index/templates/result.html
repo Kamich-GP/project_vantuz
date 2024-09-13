@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="ru">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 <head>
     <meta charset="UTF-8">
     <title>Результат по поиску</title>
 </head>
-<body>
-{% if "search_bar" in request.GET %}
-<h1>Найдено <strong>{{ r_amount }}</strong> результатов</h1>
-{% for p in results %}
-{% with post=result.object %}
-<h1>{{ post.title }}</h1>
+<body class="bg bg-dark">
+<h1 class="text-white">Найдено <strong>{{ count }}</strong> резултата(ов)</h1>
+<hr>
+{% for p in product %}
+<img src="{{ p.pr_photo.url }}" height="230" width="230" alt="">
+<h3 class="text-white">{{ p.pr_name }}</h3>
+<p class="text-white">{{ p.pr_des }}</p>
+<a href="/product/{{ p.id }}">Подробнее</a>
 <br>
-<a href="{{ post.get_absolute_url }} ">{{ post.title }}</a>
-{% endwith %}
 {% endfor %}
-{% endif %}
 </body>
 </html>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Главная страница</title>
 </head>
-<body class="bg bg-dark">
+<body class="d-flex h-100 bg bg-dark">
 <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
       <span class="fs-4">Категории</span>
@@ -23,11 +23,18 @@
           {{ category.name }}
         </a>
       </li>
+        <br>
         {% endfor %}
         {% if user.is_authenticated %}
         <li class="nav-item">
             <a href="/logout" class="nav-link active" aria-current="page">
                 Выйти
+            </a>
+        </li>
+        <br>
+        <li class="nav-item">
+            <a href="/cart" class="nav-link active" aria-current="page">
+                Корзина
             </a>
         </li>
         {% else %}
@@ -36,6 +43,7 @@
                 Регистрация
             </a>
         </li>
+        <br>
         <li class="nav-item">
             <a href="/accounts/login" class="nav-link active" aria-current="page">
                 Войти
@@ -46,18 +54,19 @@
 </div>
 <div class="container px-4 py-5" id="featured-3">
     <h2 class="pb-2 border-bottom text-white">Продукты</h2>
-    {% for product in products %}
     <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        {% for product in products %}
       <div class="feature col">
+          <img src="{{ product.pr_photo.url }}" width="200" height="200" alt="">
         <h3 class="fs-2 text-white">{{ product.pr_name }}</h3>
-        <p>{{ product.pr_des }}</p>
+        <p class="text-white">{{ product.pr_des }}</p>
         <a href="/product/{{ product.id }}" class="icon-link">
           Подробнее
           <svg class="bi"><use xlink:href="/product/{{ product.id }}"></use></svg>
         </a>
       </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
 </body>
 </html>

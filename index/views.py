@@ -56,11 +56,13 @@ class Search(ListView):
     context_object_name = 'product'
 
     def get_queryset(self):
-        return Product.objects.filter(pr_name__iregex=self.request.GET.get('search_product'))
+        return Product.objects.filter(pr_name__iregex=self.request.GET.get('search_bar'))
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['search_product'] = self.request.GET.get('search_product')
+        context['count'] = len(context['object_list'])
+        print(context)
         return context
 
 
